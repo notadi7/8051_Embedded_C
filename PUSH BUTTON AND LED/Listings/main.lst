@@ -1,0 +1,42 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              03/10/2026 23:13:32 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\main
+                    -.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include<reg52.h>
+   2          sbit button=P2^0;  //Push button pin declared
+   3          sbit led=P2^1;     //Led pin declared
+   4          
+   5          void main()
+   6          {
+   7   1      
+   8   1      P2=0x01;      //Push button as input and led as output
+   9   1      
+  10   1      while(1){     //Control will remain in while loop for ever
+  11   2      
+  12   2      if(button==1) //Button status check
+  13   2      led=1;        //If pressed switch on led
+  14   2      else
+  15   2      led=0;        //If noting led off
+  16   2      }
+  17   1      
+  18   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     14    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

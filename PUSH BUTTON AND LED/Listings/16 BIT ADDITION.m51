@@ -1,0 +1,80 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    09/23/2024  18:39:57  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\16 BIT ADDITION.obj TO .\Objects\16 BIT ADDITION PRINT (.\Listings\16 BIT ADDITION
+>> .m51)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\16 BIT ADDITION.obj (16_BIT_ADDITION)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  .\Objects\16 BIT ADDITION (16_BIT_ADDITION)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     07FDH                  *** GAP ***
+            CODE    0800H     000CH     UNIT         ?C_C51STARTUP
+            CODE    080CH     000AH     UNIT         ?PR?MAIN?16_BIT_ADDITION
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\16 BIT ADDITION (16_BIT_ADDITION)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?16_BIT_ADDITION
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\16 BIT ADDITION (16_BIT_ADDITION)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        16_BIT_ADDITION
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  C:080CH         PUBLIC        main
+  -------         PROC          MAIN
+  -------         DO            
+  D:0007H         SYMBOL        a
+  D:0006H         SYMBOL        b
+  D:0007H         SYMBOL        c
+  -------         ENDDO         
+  C:080CH         LINE#         2
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  09/23/2024  18:39:57  PAGE 2
+
+
+  C:080CH         LINE#         3
+  C:080CH         LINE#         5
+  C:080FH         LINE#         6
+  C:080FH         LINE#         7
+  C:080FH         LINE#         8
+  C:0813H         LINE#         9
+  C:0815H         LINE#         10
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        16_BIT_ADDITION
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 000AH BYTE ( 0%) *
+******************************************************************************
+
+Program Size: data=9.0 xdata=0 code=25
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

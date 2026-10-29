@@ -1,0 +1,105 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    12/08/2024  23:42:39  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\main.obj TO .\Objects\MAIN PRINT (.\Listings\MAIN.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\main.obj (MAIN)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  .\Objects\MAIN (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0002H     UNIT         _DATA_GROUP_
+            IDATA   000AH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     07FDH                  *** GAP ***
+            CODE    0800H     0037H     UNIT         ?PR?MAIN?MAIN
+            CODE    0837H     0027H     UNIT         ?PR?_DELAY?MAIN
+            CODE    085EH     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\MAIN (MAIN)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?MAIN
+
+?PR?MAIN?MAIN                  0008H    0002H
+  +--> ?PR?_DELAY?MAIN
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\MAIN (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  C:083EH         PUBLIC        _delay
+  C:0800H         PUBLIC        main
+  -------         PROC          MAIN
+  -------         DO            
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  12/08/2024  23:42:39  PAGE 2
+
+
+  D:0008H         SYMBOL        x
+  -------         ENDDO         
+  C:0800H         LINE#         3
+  C:0800H         LINE#         4
+  C:0800H         LINE#         6
+  C:0800H         LINE#         8
+  C:0800H         LINE#         9
+  C:0805H         LINE#         10
+  C:0805H         LINE#         11
+  C:0805H         LINE#         12
+  C:0808H         LINE#         13
+  C:0819H         LINE#         15
+  C:082AH         LINE#         16
+  C:082AH         LINE#         17
+  C:082AH         LINE#         18
+  C:082DH         LINE#         19
+  -------         ENDPROC       MAIN
+  -------         PROC          L?0021
+  -------         ENDPROC       L?0021
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        time
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:083EH         LINE#         23
+  C:083EH         LINE#         24
+  C:083EH         LINE#         26
+  C:0848H         LINE#         27
+  C:0848H         LINE#         28
+  C:0856H         LINE#         29
+  C:085DH         LINE#         30
+  -------         ENDPROC       _DELAY
+  -------         ENDMOD        MAIN
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 005EH BYTE ( 4%) *
+******************************************************************************
+
+Program Size: data=11.0 xdata=0 code=109
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
