@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\4bit.obj" 
+TO ".\Objects\4BIT" 
+PRINT(".\Listings\4BIT.m51") RAMSIZE(256) 

@@ -1,0 +1,151 @@
+C51 COMPILER V9.60.7.0   4BIT                                                              12/10/2025 18:05:45 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE 4BIT
+OBJECT MODULE PLACED IN .\Objects\4bit.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE 4bit.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\4bit
+                    -.lst) TABS(2) OBJECT(.\Objects\4bit.obj)
+
+line level    source
+
+   1          /* 4-bit LCD interface for 8051 (Keil C51)
+   2             Uses:
+   3               P2.4 - D4
+   4               P2.5 - D5
+   5               P2.6 - D6
+   6               P2.7 - D7
+   7               P3.2 - RS
+   8               P3.3 - RW
+   9               P3.4 - EN
+  10             IMPORTANT: Do NOT have a macro like "#define lcd_data P2" anywhere.
+  11          */
+  12          
+  13          #include <reg51.h>
+  14          
+  15          sbit LCD_RS = P2 ^ 0;
+  16          sbit LCD_RW = P2 ^ 1;
+  17          sbit LCD_EN = P2 ^ 2;
+  18          
+  19          void lcd_delay(void);
+  20          void pulse_en(void);
+  21          void write4bits(unsigned char high_nibble); /* expects data in bits 7..4 */
+  22          void lcd_send(unsigned char value, bit is_data);
+  23          void lcd_cmd(unsigned char c);
+  24          void lcd_put(unsigned char ch);
+  25          void lcd_init(void);
+  26          void lcd_print(unsigned char *str);
+  27          
+  28          void lcd_delay(void) {
+  29   1          unsigned int i;
+  30   1          for (i = 0; i < 3000
+  31   1        
+  32   1        ; i++); /* crude delay - increase if needed */
+  33   1      }
+  34          
+  35          void pulse_en(void) {
+  36   1          LCD_EN = 1;
+  37   1          lcd_delay();
+  38   1          LCD_EN = 0;
+  39   1          lcd_delay();
+  40   1      }
+  41          
+  42          /* Place the high nibble (bits7..4) onto P2.7..P2.4 and pulse EN.
+  43             We preserve P2.0..P2.3 in case they are used elsewhere. */
+  44          void write4bits(unsigned char high_nibble) {
+  45   1          unsigned char tmp = P2 & 0x0F;          /* keep lower nibble */
+  46   1          P2 = tmp | (high_nibble & 0xF0);        /* set upper nibble */
+  47   1          pulse_en();
+  48   1      }
+  49          
+  50          void lcd_send(unsigned char value, bit is_data) {
+  51   1          LCD_RS = is_data; /* 1 = data, 0 = command */
+  52   1          LCD_RW = 0;       /* write */
+  53   1          write4bits(value & 0xF0);               /* send upper nibble */
+  54   1          write4bits((value << 4) & 0xF0);        /* send lower nibble (shifted to high nibble) */
+C51 COMPILER V9.60.7.0   4BIT                                                              12/10/2025 18:05:45 PAGE 2   
+
+  55   1      }
+  56          
+  57          void lcd_cmd(unsigned char c) {
+  58   1          lcd_send(c, 0);
+  59   1      }
+  60          
+  61          void lcd_put(unsigned char ch) {
+  62   1          lcd_send(ch, 1);
+  63   1      }
+  64          
+  65          void lcd_print(unsigned char *str) {
+  66   1          while (*str) {
+  67   2              lcd_put(*str++);
+  68   2          }
+  69   1      }
+  70          
+  71          /* Initialize HD44780 in 4-bit mode (standard sequence) */
+  72          void lcd_init(void) {
+  73   1          /* initial delays to allow module power-up */
+  74   1          lcd_delay(); lcd_delay(); lcd_delay();
+  75   1      
+  76   1          LCD_RS = 0; LCD_RW = 0; LCD_EN = 0;
+  77   1      
+  78   1          /* The following are single-nibble writes to get into 4-bit mode */
+  79   1          write4bits(0x30); /* function set (8-bit mode) - 1st */
+  80   1          lcd_delay();
+  81   1          write4bits(0x30); /* 2nd */
+  82   1          lcd_delay();
+  83   1          write4bits(0x30); /* 3rd */
+  84   1          lcd_delay();
+  85   1          write4bits(0x20); /* set to 4-bit mode */
+  86   1          lcd_delay();
+  87   1      
+  88   1          /* Now send full commands (each will be sent as two nibbles) */
+  89   1          lcd_cmd(0x28); /* function set: 4-bit, 2 lines, 5x8 dots */
+  90   1          lcd_cmd(0x0C); /* display ON, cursor OFF, blink OFF */
+  91   1          lcd_cmd(0x06); /* entry mode: increment, no shift */
+  92   1          lcd_cmd(0x01); /* clear */
+  93   1          lcd_delay();
+  94   1          lcd_cmd(0x80); /* set DDRAM addr = 0 */
+  95   1      }
+  96          
+  97          int main(void) {
+  98   1          unsigned int j;
+  99   1          lcd_init();
+ 100   1      
+ 101   1          while (1) {
+ 102   2              lcd_cmd(0x80);
+ 103   2              lcd_print("Human Detection");
+ 104   2              lcd_cmd(0xC0);
+ 105   2              lcd_print("Light On & OF");
+ 106   2              for (j = 0; j < 30000; j++);
+ 107   2      
+ 108   2              lcd_cmd(0x01);
+ 109   2              for (j = 0; j < 30000; j++);
+ 110   2              lcd_cmd(0x80);
+ 111   2              lcd_print("   
+*** ERROR C103 IN LINE 111 OF 4bit.c: '<string>': unclosed string
+*** ERROR C305 IN LINE 111 OF 4bit.c: unterminated string/char const
+ 112   2            16 X 2 LCD  ");
+*** ERROR C141 IN LINE 112 OF 4bit.c: syntax error near '16', expected ','
+*** ERROR C103 IN LINE 112 OF 4bit.c: '<string>': unclosed string
+C51 COMPILER V9.60.7.0   4BIT                                                              12/10/2025 18:05:45 PAGE 3   
+
+*** ERROR C305 IN LINE 112 OF 4bit.c: unterminated string/char const
+ 113   2              lcd_cmd(0xC0);
+ 114   2              lcd_print("  By Using 8051  ");
+ 115   2              for (j = 0; j < 30000; j++);
+ 116   2      
+ 117   2              lcd_cmd(0x01);
+ 118   2              for (j = 0; j < 30000; j++);
+ 119   2              lcd_cmd(0x80);
+ 120   2              lcd_print("   Code By :   ");
+ 121   2              lcd_cmd(0xC0);
+ 122   2              lcd_print("  ELCTROGENIX! ");
+ 123   2              for (j = 0; j < 30000; j++);
+ 124   2      
+ 125   2              lcd_cmd(0x01);
+ 126   2              for (j = 0; j < 30000; j++);
+ 127   2          }
+ 128   1      
+ 129   1          return 0;
+ 130   1      }
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  5 ERROR(S)

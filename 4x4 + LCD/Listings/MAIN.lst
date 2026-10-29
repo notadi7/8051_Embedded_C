@@ -1,0 +1,163 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              10/15/2024 09:42:59 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\MAIN.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE MAIN.C OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\MAIN
+                    -.lst) TABS(2) OBJECT(.\Objects\MAIN.obj)
+
+line level    source
+
+   1          #include <reg51.h> // Header file for 8051
+   2          
+   3          // Define LCD control pins
+   4          sbit RS = P1^0;  // Register select pin
+   5          sbit RW = P1^1;  // Read/Write pin
+   6          sbit EN = P1^2;  // Enable pin
+   7          
+   8          // Define rows and columns for 4x4 Keypad
+   9          sbit R1 = P3^0;
+  10          sbit R2 = P3^1;
+  11          sbit R3 = P3^2;
+  12          sbit R4 = P3^3;
+  13          sbit C1 = P3^4;
+  14          sbit C2 = P3^5;
+  15          sbit C3 = P3^6;
+  16          sbit C4 = P3^7;
+  17          
+  18          // Function prototypes
+  19          void lcd_init(void);
+  20          void lcd_cmd(unsigned char);
+  21          void lcd_data(unsigned char);
+  22          void lcd_string(unsigned char *str);
+  23          void delay(unsigned int);
+  24          char keypad_scan(void);
+  25          void lcd_data_display(char key);
+  26          
+  27          void main() {
+  28   1          char key;
+  29   1          lcd_init(); // Initialize LCD
+  30   1          lcd_string("Keypad Testing"); // Display start-up message
+  31   1      
+  32   1          while(1) {
+  33   2              key = keypad_scan(); // Scan the keypad
+  34   2              if(key != 0) {
+  35   3                  lcd_cmd(0x01); // Clear LCD
+  36   3                  lcd_data_display(key); // Display pressed key
+  37   3              }
+  38   2          }
+  39   1      }
+  40          
+  41          // Initialize LCD in 4-bit mode
+  42          void lcd_init() {
+  43   1          lcd_cmd(0x02);  // Initialize in 4-bit mode
+  44   1          lcd_cmd(0x28);  // 4-bit, 2 lines, 5x7 matrix
+  45   1          lcd_cmd(0x0C);  // Display ON, cursor OFF
+  46   1          lcd_cmd(0x06);  // Increment cursor
+  47   1          lcd_cmd(0x01);  // Clear display
+  48   1          lcd_cmd(0x80);  // Move cursor to first line, first position
+  49   1      }
+  50          
+  51          // Function to send commands to the LCD
+  52          void lcd_cmd(unsigned char cmd) {
+  53   1          P2 = (cmd & 0xF0);  // Send higher nibble
+  54   1          RS = 0;  // Command mode
+C51 COMPILER V9.60.7.0   MAIN                                                              10/15/2024 09:42:59 PAGE 2   
+
+  55   1          RW = 0;  // Write mode
+  56   1          EN = 1;
+  57   1          delay(1);
+  58   1          EN = 0;
+  59   1          
+  60   1          P2 = ((cmd << 4) & 0xF0);  // Send lower nibble
+  61   1          EN = 1;
+  62   1          delay(1);
+  63   1          EN = 0;
+  64   1          delay(2);  // Small delay for command processing
+  65   1      }
+  66          
+  67          // Function to send data to the LCD
+  68          void lcd_data(unsigned char data) {
+*** ERROR C141 IN LINE 68 OF MAIN.C: syntax error near ')', expected '<id>'
+*** ERROR C236 IN LINE 68 OF MAIN.C: '_lcd_data': different length of parameter lists
+  69   1          P2 = (data & 0xF0);  // Send higher nibble
+*** ERROR C141 IN LINE 69 OF MAIN.C: syntax error near '&', expected 'bit'
+*** ERROR C190 IN LINE 69 OF MAIN.C: '&': not an lvalue
+*** ERROR C141 IN LINE 69 OF MAIN.C: syntax error near ')', expected ';'
+  70   1          RS = 1;  // Data mode
+  71   1          RW = 0;  // Write mode
+  72   1          EN = 1;
+  73   1          delay(1);
+  74   1          EN = 0;
+  75   1      
+  76   1          P2 = ((data << 4) & 0xF0);  // Send lower nibble
+*** ERROR C141 IN LINE 76 OF MAIN.C: syntax error near '<<', expected 'bit'
+*** ERROR C141 IN LINE 76 OF MAIN.C: syntax error near ')', expected ';'
+*** ERROR C190 IN LINE 76 OF MAIN.C: '&': not an lvalue
+*** ERROR C141 IN LINE 76 OF MAIN.C: syntax error near ')', expected ';'
+  77   1          EN = 1;
+  78   1          delay(1);
+  79   1          EN = 0;
+  80   1          delay(2);  // Small delay for data processing
+  81   1      }
+  82          
+  83          // Function to display string on the LCD
+  84          void lcd_string(unsigned char *str) {
+  85   1          while(*str) {
+  86   2              lcd_data(*str++);
+  87   2          }
+  88   1      }
+  89          
+  90          // Function to introduce delay
+  91          void delay(unsigned int time) {
+  92   1          unsigned int i, j;
+  93   1          for(i = 0; i < time; i++)
+  94   1              for(j = 0; j < 1275; j++);
+  95   1      }
+  96          
+  97          // Keypad scanning function
+  98          char keypad_scan() {
+  99   1          // Set all columns high and rows low
+ 100   1          C1 = C2 = C3 = C4 = 1;
+ 101   1          R1 = R2 = R3 = R4 = 0;
+ 102   1      
+ 103   1          // Check row 1
+ 104   1          R1 = 0; R2 = R3 = R4 = 1;
+ 105   1          if (C1 == 0) { delay(10); return '1'; }
+ 106   1          if (C2 == 0) { delay(10); return '2'; }
+ 107   1          if (C3 == 0) { delay(10); return '3'; }
+C51 COMPILER V9.60.7.0   MAIN                                                              10/15/2024 09:42:59 PAGE 3   
+
+ 108   1          if (C4 == 0) { delay(10); return 'A'; }
+ 109   1      
+ 110   1          // Check row 2
+ 111   1          R2 = 0; R1 = R3 = R4 = 1;
+ 112   1          if (C1 == 0) { delay(10); return '4'; }
+ 113   1          if (C2 == 0) { delay(10); return '5'; }
+ 114   1          if (C3 == 0) { delay(10); return '6'; }
+ 115   1          if (C4 == 0) { delay(10); return 'B'; }
+ 116   1      
+ 117   1          // Check row 3
+ 118   1          R3 = 0; R1 = R2 = R4 = 1;
+ 119   1          if (C1 == 0) { delay(10); return '7'; }
+ 120   1          if (C2 == 0) { delay(10); return '8'; }
+ 121   1          if (C3 == 0) { delay(10); return '9'; }
+ 122   1          if (C4 == 0) { delay(10); return 'C'; }
+ 123   1      
+ 124   1          // Check row 4
+ 125   1          R4 = 0; R1 = R2 = R3 = 1;
+ 126   1          if (C1 == 0) { delay(10); return '*'; }
+ 127   1          if (C2 == 0) { delay(10); return '0'; }
+ 128   1          if (C3 == 0) { delay(10); return '#'; }
+ 129   1          if (C4 == 0) { delay(10); return 'D'; }
+ 130   1      
+ 131   1          return 0; // No key pressed
+ 132   1      }
+ 133          
+ 134          // Function to display the pressed key on the LCD
+ 135          void lcd_data_display(char key) {
+ 136   1          lcd_cmd(0x80); // Move cursor to the beginning of the first line
+ 137   1          lcd_data(key); // Display the key
+ 138   1      }
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  9 ERROR(S)

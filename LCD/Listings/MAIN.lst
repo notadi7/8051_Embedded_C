@@ -1,0 +1,135 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              10/24/2024 17:23:36 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\MAIN.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE MAIN.C OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\MAIN
+                    -.lst) TABS(2) OBJECT(.\Objects\MAIN.obj)
+
+line level    source
+
+   1          #include <reg51.h>  // Include 8051 register definitions
+   2          sbit RS = P2^0;     // RS pin connected to P2.0
+   3          sbit RW = P2^1;     // RW pin connected to P2.1
+   4          sbit EN = P2^2;     // Enable pin connected to P2.2
+   5          
+   6          // Function prototypes
+   7          void lcd_init(void);
+   8          void lcd_cmd(unsigned char);
+   9          void lcd_data(unsigned char);
+  10          void lcd_set_cursor(unsigned char, unsigned char);
+  11          void lcd_write_string(unsigned char *);
+  12          void delay_ms(unsigned int);
+  13          void lcd_send_nibble(unsigned char);
+  14          void lcd_enable_pulse(void);
+  15          
+  16          void main(void) {
+  17   1          lcd_init();  // Initialize the LCD
+  18   1      
+  19   1          // Set cursor to row 1, column 1, and display "Hello"
+  20   1          lcd_set_cursor(1, 4);
+  21   1          lcd_write_string("Welcome To");
+  22   1      
+  23   1          // Set cursor to row 2, column 1, and display "8051!"
+  24   1          lcd_set_cursor(2, 1);
+  25   1          lcd_write_string("ENTC Department!");
+  26   1      
+  27   1          while(1);  // Infinite loop
+  28   1      }
+  29          
+  30          // LCD initialization function
+  31          void lcd_init(void) {
+  32   1          lcd_cmd(0x02);  // Initialize LCD in 4-bit mode
+  33   1          lcd_cmd(0x28);  // 2 lines, 5x7 matrix in 4-bit mode
+  34   1          lcd_cmd(0x0C);  // Display ON, Cursor OFF
+  35   1          lcd_cmd(0x06);  // Auto-increment cursor
+  36   1          lcd_cmd(0x01);  // Clear display
+  37   1          delay_ms(2);
+  38   1      }
+  39          
+  40          // Function to send a command to LCD
+  41          void lcd_cmd(unsigned char cmd) {
+  42   1          RS = 0;  // Command mode
+  43   1          RW = 0;  // Write operation
+  44   1          
+  45   1          // Send higher nibble
+  46   1          lcd_send_nibble(cmd >> 4);
+  47   1          
+  48   1          // Send lower nibble
+  49   1          lcd_send_nibble(cmd);
+  50   1          
+  51   1          delay_ms(2);  // Wait for the command to execute
+  52   1      }
+  53          
+  54          // Function to send data to LCD
+C51 COMPILER V9.60.7.0   MAIN                                                              10/24/2024 17:23:36 PAGE 2   
+
+  55          void lcd_data(unsigned char dat) {
+  56   1          RS = 1;  // Data mode
+  57   1          RW = 0;  // Write operation
+  58   1      
+  59   1          // Send higher nibble
+  60   1          lcd_send_nibble(dat >> 4);
+  61   1          
+  62   1          // Send lower nibble
+  63   1          lcd_send_nibble(dat);
+  64   1          
+  65   1          delay_ms(2);  // Wait for the data to execute
+  66   1      }
+  67          
+  68          // Function to set cursor position
+  69          void lcd_set_cursor(unsigned char row, unsigned char column) {
+  70   1          unsigned char position;
+  71   1          if(row == 1) {
+  72   2              position = 0x80 + (column - 1);  // Starting address of row 1
+  73   2          } else if(row == 2) {
+  74   2              position = 0xC0 + (column - 1);  // Starting address of row 2
+  75   2          }
+  76   1          lcd_cmd(position);  // Set cursor position
+  77   1      }
+  78          
+  79          // Function to write a string to the LCD
+  80          void lcd_write_string(unsigned char *str) {
+  81   1          while(*str) {
+  82   2              lcd_data(*str++);
+  83   2          }
+  84   1      }
+  85          
+  86          // Function to send a nibble (half byte) to the LCD using P2.4 to P2.7
+  87          void lcd_send_nibble(unsigned char nibble) {
+  88   1          // Clear upper nibble (D4-D7) and set it to the value of the nibble being sent
+  89   1          P2 = (P2 & 0x0F) | (nibble << 4);
+  90   1      
+  91   1          lcd_enable_pulse();  // Generate the enable pulse
+  92   1      }
+  93          
+  94          // Function to generate enable pulse
+  95          void lcd_enable_pulse(void) {
+  96   1          EN = 1;  // Set Enable high
+  97   1          delay_ms(1);  // Short delay
+  98   1          EN = 0;  // Set Enable low
+  99   1      }
+ 100          
+ 101          // Simple delay function
+ 102          void delay_ms(unsigned int ms) {
+ 103   1          unsigned int i, j;
+ 104   1          for(i = 0; i < ms; i++) {
+ 105   2              for(j = 0; j < 1275; j++);  // 1ms delay for 8051 at 11.0592 MHz
+ 106   2          }
+ 107   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    242    ----
+   CONSTANT SIZE    =     28    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       6
+   IDATA SIZE       =   ----    ----
+C51 COMPILER V9.60.7.0   MAIN                                                              10/24/2024 17:23:36 PAGE 3   
+
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

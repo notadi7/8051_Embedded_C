@@ -1,0 +1,134 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    03/10/2026  23:36:34  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\main.obj TO .\Objects\main PRINT (.\Listings\main.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\main.obj (MAIN)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  .\Objects\main (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     07FDH                  *** GAP ***
+            CODE    0800H     003BH     UNIT         ?PR?EMERGENCY_BEEP?MAIN
+            CODE    083BH     0034H     UNIT         ?PR?_DELAY?MAIN
+            CODE    086FH     0017H     UNIT         ?PR?MAIN?MAIN
+            CODE    0886H     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\main (MAIN)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?MAIN
+
+?PR?MAIN?MAIN
+  +--> ?PR?_DELAY?MAIN
+  +--> ?PR?EMERGENCY_BEEP?MAIN
+
+?PR?EMERGENCY_BEEP?MAIN
+  +--> ?PR?_DELAY?MAIN
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\main (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:00A0H         PUBLIC        P2
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  03/10/2026  23:36:34  PAGE 2
+
+
+  C:084FH         PUBLIC        _delay
+  C:086FH         PUBLIC        main
+  C:0800H         PUBLIC        emergency_beep
+  B:00A0H.0       PUBLIC        BUTTON
+  B:00A0H.2       PUBLIC        BUZZER
+  -------         PROC          L?0021
+  -------         ENDPROC       L?0021
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        ms
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:084FH         LINE#         6
+  C:084FH         LINE#         7
+  C:084FH         LINE#         9
+  C:0859H         LINE#         10
+  C:086EH         LINE#         11
+  -------         ENDPROC       _DELAY
+  -------         PROC          EMERGENCY_BEEP
+  -------         DO            
+  D:0082H         SYMBOL        i
+  -------         ENDDO         
+  C:0800H         LINE#         13
+  C:0800H         LINE#         14
+  C:0800H         LINE#         17
+  C:0803H         LINE#         18
+  C:0803H         LINE#         20
+  C:0809H         LINE#         21
+  C:0809H         LINE#         23
+  C:0809H         LINE#         24
+  C:0809H         LINE#         26
+  C:080CH         LINE#         27
+  C:0813H         LINE#         30
+  C:081AH         LINE#         31
+  C:0821H         LINE#         34
+  C:0825H         LINE#         35
+  C:0825H         LINE#         37
+  C:0825H         LINE#         38
+  C:0825H         LINE#         40
+  C:0828H         LINE#         41
+  C:082FH         LINE#         42
+  C:0838H         LINE#         44
+  C:083AH         LINE#         45
+  -------         ENDPROC       EMERGENCY_BEEP
+  -------         PROC          MAIN
+  C:086FH         LINE#         47
+  C:086FH         LINE#         48
+  C:086FH         LINE#         49
+  C:0871H         LINE#         51
+  C:0871H         LINE#         52
+  C:0871H         LINE#         53
+  C:0874H         LINE#         54
+  C:0874H         LINE#         55
+  C:087BH         LINE#         57
+  C:087EH         LINE#         58
+  C:087EH         LINE#         59
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  03/10/2026  23:36:34  PAGE 3
+
+
+  C:0881H         LINE#         61
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0086H BYTE ( 6%) *
+******************************************************************************
+
+Program Size: data=9.0 xdata=0 code=149
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,43 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              03/08/2026 05:16:39 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\main
+                    -.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <reg51.h>  // Include the header file for 8051
+   2          
+   3          #define LED  P1 // Define LED pin as P1.0
+   4          
+   5          void delay(unsigned int time) {
+   6   1          unsigned int i, j;
+   7   1          for(i = 0; i < time; i++)
+   8   1              for(j = 0; j < 1275; j++);  // Approximate delay for 1 ms
+   9   1      }
+  10          
+  11          void main() {
+  12   1        LED =0X00;
+  13   1          while(1) {
+  14   2              LED = 0xff;  // Turn ON the LED
+  15   2              delay(500);  // Delay of 500 ms
+  16   2              LED = 0x00;  // Turn OFF the LED
+  17   2              delay(500);  // Delay of 500 ms
+  18   2          }
+  19   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     53    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
