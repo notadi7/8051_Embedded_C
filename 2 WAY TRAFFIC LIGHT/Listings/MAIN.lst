@@ -1,0 +1,98 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              03/08/2026 05:57:33 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\MAIN.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE MAIN.C OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\MAIN
+                    -.lst) TABS(2) OBJECT(.\Objects\MAIN.obj)
+
+line level    source
+
+   1          #include <reg51.h>
+   2          
+   3          void delay_50ms()
+   4          {
+   5   1          TMOD = 0x01;      // Timer0 Mode1 (16-bit)
+   6   1      
+   7   1          TH0 = 0x4C;       // 50ms delay
+   8   1          TL0 = 0x00;
+   9   1      
+  10   1          TR0 = 1;          // Start timer
+  11   1          while(TF0 == 0);  // Wait overflow
+  12   1      
+  13   1          TR0 = 0;          // Stop timer
+  14   1          TF0 = 0;          // Clear flag
+  15   1      }
+  16          
+  17          void delay_half_second()
+  18          {
+  19   1          int i;
+  20   1          for(i=0;i<10;i++)     // 10 × 50ms = 0.5 sec
+  21   1              delay_50ms();
+  22   1      }
+  23          
+  24          void delay_1s()
+  25          {
+  26   1          int i;
+  27   1          for(i=0;i<20;i++)     // 20 × 50ms = 1 sec
+  28   1              delay_50ms();
+  29   1      }
+  30          
+  31          void delay_seconds(int sec)
+  32          {
+  33   1          int j;
+  34   1          for(j=0;j<sec;j++)
+  35   1              delay_1s();
+  36   1      }
+  37          
+  38          void main()
+  39          {
+  40   1          int k;
+  41   1      
+  42   1          while(1)
+  43   1          {
+  44   2              // -------- WAY 1 GREEN --------
+  45   2              P2 = 0xBE;      // G1=1 , R2=1
+  46   2              delay_seconds(10);
+  47   2      
+  48   2              // -------- WAY 1 YELLOW BLINK (0.5 sec) --------
+  49   2              for(k=0;k<5;k++)
+  50   2              {
+  51   3                  P2 = 0xBD;      // Y1 ON
+  52   3                  delay_half_second();
+  53   3      
+  54   3                  P2 = 0xBF;      // Y1 OFF
+C51 COMPILER V9.60.7.0   MAIN                                                              03/08/2026 05:57:33 PAGE 2   
+
+  55   3                  delay_half_second();
+  56   3              }
+  57   2      
+  58   2              // -------- WAY 2 GREEN --------
+  59   2              P2 = 0xEB;      // R1=1 , G2=1
+  60   2              delay_seconds(10);
+  61   2      
+  62   2              // -------- WAY 2 YELLOW BLINK (0.5 sec) --------
+  63   2              for(k=0;k<5;k++)
+  64   2              {
+  65   3                  P2 = 0xDB;      // Y2 ON
+  66   3                  delay_half_second();
+  67   3      
+  68   3                  P2 = 0xFB;      // Y2 OFF
+  69   3                  delay_half_second();
+  70   3              }
+  71   2          }
+  72   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    165    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
